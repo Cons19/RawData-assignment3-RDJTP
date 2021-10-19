@@ -8,12 +8,13 @@ namespace Client
     
     class ClientProgram
     {
+        const int PORT = 5000;
         static void Main(string[] args)
         {
 
             var client = new NetworkClient();
 
-            client.Connect("localhost", 5000);
+            client.Connect("localhost", PORT);
 
             var message = "hello";
             client.Write(message);
