@@ -1,6 +1,5 @@
 //#define COMMENT
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -636,9 +635,9 @@ namespace Assignment3TestSuite
                     memStream.Write(resp, 0, bytesread);
 
                 } while (bytesread == 2048);
-                
+
                 var responseData = Encoding.UTF8.GetString(memStream.ToArray());
-                return JsonSerializer.Deserialize<Response>(responseData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
+                return JsonSerializer.Deserialize<Response>(responseData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
         }
     }
