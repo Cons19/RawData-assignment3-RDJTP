@@ -102,7 +102,7 @@ namespace Assignment3TestSuite
 
         /* Date Tests    */
 
-        /*[Fact]
+        [Fact]
         public void Constraint_RequestWithoutDate_MissingDateError()
         {
             var client = Connect();
@@ -131,7 +131,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("illegal date", response.Status.ToLower());
-        }*/
+        }
 
         /* Body Tests    */
 

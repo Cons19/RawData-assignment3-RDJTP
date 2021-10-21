@@ -24,7 +24,7 @@ namespace Server
                 var req = client.Read();
                 if (req == "{}")
                 {
-                    var r = new Response { Body = "4", Status = "Illegal method, Missing method, Illegal path, Missing path, Illegal date, Missing body" };
+                    var r = new Response { Body = "4", Status = "Illegal method, Missing method, Illegal path, Missing path, Illegal date, Missing date, Missing body" };
                     client.Write(r.ToJson());
                 }
                 else
@@ -33,14 +33,6 @@ namespace Server
                     var res = new Response();
                     string errorMessage = "";
                     string[] methods = {"read", "create", "update", "delete", "echo"};
-
-                    if(!methods.Contains(data.Method))
-                    {
-                        res.Body = "4";
-                        if (errorMessage != "")
-                            errorMessage += ",";
-                        errorMessage += "Illegal method";
-                    }
 
                     switch (data.Method)
                     {
@@ -57,6 +49,13 @@ namespace Server
                             errorMessage += "Missing method";
                             break;
                         default:
+                            if(!methods.Contains(data.Method))
+                            {
+                                res.Body = "4";
+                                if (errorMessage != "")
+                                    errorMessage += ",";
+                                errorMessage += "Illegal method";
+                            }
                             break;
                     }
 
@@ -93,6 +92,12 @@ namespace Server
                             errorMessage += "Missing date";
                             break;
                         default:
+                            if (DateTimeOffset.Now.ToUnixTimeSeconds().ToString() != data.Date )
+                            {
+                                if (errorMessage != "")
+                                    errorMessage += ",";
+                                errorMessage += "Illegal date";
+                            }
                             break;
                     }
 
