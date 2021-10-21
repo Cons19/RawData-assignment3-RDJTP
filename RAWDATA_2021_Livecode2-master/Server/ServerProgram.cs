@@ -94,13 +94,18 @@ namespace Server
                     {
                         res.Body = data.Body;
                     }
-                    
-                    /*else if (data.Body) 
-                    {
-                        if (errorMessage != "")
+
+                    // from JSON text to object
+                    try 
+                    { 
+                        var categoryFromJson = JsonSerializer.Deserialize<Category>(data.Body);                    
+                    }
+                    catch 
+                    { 
+                         if (errorMessage != "")
                             errorMessage += ",";
-                        errorMessage += "Illegal body";
-                    } */
+                         errorMessage += "Illegal body";
+                    }
 
                     res.Status = errorMessage;
                     client.Write(res.ToJson());
