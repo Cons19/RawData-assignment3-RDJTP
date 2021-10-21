@@ -4,7 +4,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Linq;
 using Utillities;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 namespace Server
 {
     class ServerProgram
@@ -33,85 +34,73 @@ namespace Server
                     var res = new Response();
                     string errorMessage = "";
                     string[] methods = {"read", "create", "update", "delete", "echo"};
+                    string[] bodyMethods = {"create", "update", "echo"};
 
-                    switch (data.Method)
+                    // Checking Data Method
+                    if (data.Method == "")
                     {
-                        case "":
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Illegal method";
-                            break;
-                        case null:
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Missing method";
-                            break;
-                        default:
-                            if(!methods.Contains(data.Method))
-                            {
-                                res.Body = "4";
-                                if (errorMessage != "")
-                                    errorMessage += ",";
-                                errorMessage += "Illegal method";
-                            }
-                            break;
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal method";
+                    } else if (data.Method == null)
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Missing method";
+                    } else if(!methods.Contains(data.Method))
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal method";
                     }
 
-                    switch (data.Path)
+                    // Checking Data Path
+                    if (data.Path == "")
                     {
-                        case "":
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Illegal resource";
-                            break;
-                        case null:
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Missing resource";
-                            break;
-                        default:
-                            break;
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal resource";
+                    } else if (data.Path == null)
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Missing resource";
                     }
 
-                    switch (data.Date)
+                    // Checking Data Date
+                    if (data.Date == "")
                     {
-                        case "":
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Illegal date";
-                            break;
-                        case null:
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Missing date";
-                            break;
-                        default:
-                            if (DateTimeOffset.Now.ToUnixTimeSeconds().ToString() != data.Date )
-                            {
-                                if (errorMessage != "")
-                                    errorMessage += ",";
-                                errorMessage += "Illegal date";
-                            }
-                            break;
-                    }
-
-                    switch (data.Body)
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal date";
+                    } else if (data.Date == null)
                     {
-                        case null:
-                            res.Body = "4";
-                            if (errorMessage != "")
-                                errorMessage += ",";
-                            errorMessage += "Missing body";
-                            break;
-                        default:
-                            break;
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Missing date";
+                    } else if (DateTimeOffset.Now.ToUnixTimeSeconds().ToString() != data.Date )
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal date";
                     }
+                    // checking Data Body
+                    if (data.Body == null && bodyMethods.Contains(data.Method))
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Missing body";
+                    } else if (data.Body != null && data.Method == "echo")
+                    {
+                        res.Body = data.Body;
+                    }
+                    
+                    /*else if (data.Body) 
+                    {
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal body";
+                    } */
 
                     res.Status = errorMessage;
                     client.Write(res.ToJson());

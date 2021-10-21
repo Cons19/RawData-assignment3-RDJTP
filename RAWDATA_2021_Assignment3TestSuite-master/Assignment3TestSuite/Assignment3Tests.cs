@@ -135,7 +135,7 @@ namespace Assignment3TestSuite
 
         /* Body Tests    */
 
-        /*[Theory]
+        [Theory]
         [InlineData("create")]
         [InlineData("update")]
         [InlineData("echo")]
@@ -176,10 +176,10 @@ namespace Assignment3TestSuite
 
             Assert.Contains("illegal body", response.Status.ToLower());
 
-        }*/
+        }
 
         /* Echo Test */
-        /*[Fact]
+        [Fact]
         public void Echo_RequestWithBody_ReturnsBody()
         {
             var client = Connect();
@@ -196,7 +196,7 @@ namespace Assignment3TestSuite
 
             Assert.Equal("Hello World", response.Body);
 
-        }*/
+        }
 
         //////////////////////////////////////////////////////////
         /// 
