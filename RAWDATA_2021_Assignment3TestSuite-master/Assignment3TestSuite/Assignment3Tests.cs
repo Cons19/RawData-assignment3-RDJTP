@@ -59,7 +59,7 @@ namespace Assignment3TestSuite
             Assert.Contains("missing method", response.Status.ToLower());
         }
 
-        /*[Fact]
+        [Fact]
         public void Constraint_RequestWithUnknownMethod_IllegalMethodError()
         {
             var client = Connect();
@@ -98,7 +98,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("missing resource", response.Status.ToLower());
-        }*/
+        }
 
         /* Date Tests    */
 

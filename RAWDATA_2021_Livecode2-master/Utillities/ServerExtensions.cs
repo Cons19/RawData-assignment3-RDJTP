@@ -14,14 +14,14 @@ namespace Utillities
     {
         public string Method { get; set; }
         public string Path { get; set; }
-        public Int32 Date { get; set; }
-        public Category Body { get; set; }
+        public string Date { get; set; } // timestamp??
+        public string Body { get; set; } // category
     }
 
     public class Response
     {
         public string Status { get; set; }
-        public int Body { get; set; }
+        public string Body { get; set; }
     }
 
     public class Category

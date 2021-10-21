@@ -17,15 +17,24 @@ namespace Client
 
             client.Connect("localhost", PORT);
 
-            var req = new Request
+            /*var req = new Request
             {
-                // Method = "dwadwa",
-                // Path = "dwad",
-                // Date = unixTimestamp,
-                // Body = new Category { Id = 1, Name = "NewName" }
+                Method = "dwadwa",
+                Path = "dwad",
+                Date = unixTimestamp,
+                Body = new Category { Id = 1, Name = "NewName" }
+            };*/
+            var req = new
+            {
+                Method = "xxxx",
+                Path = "testing",
+                Date = DateTimeOffset.Now.ToUnixTimeSeconds().ToString(),
+                Body = "{}"
             };
 
-            client.Write("{}".ToJson());
+
+            client.Write(req.ToJson());
+
 
             var response = client.Read();
             var data = response.FromJson<Response>();

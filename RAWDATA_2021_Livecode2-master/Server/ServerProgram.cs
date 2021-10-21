@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Linq;
 using Utillities;
 
 namespace Server
@@ -21,11 +22,9 @@ namespace Server
                 Console.WriteLine("Client accepted");
 
                 var req = client.Read();
-
-                if (string.Compare(req, "") == 1)
+                if (req == "{}")
                 {
-                    System.Console.WriteLine("here");
-                    var r = new Response { Body = 4, Status = "Illegal method, Missing method, Illegal path, Missing path, Illegal date, Missing body" };
+                    var r = new Response { Body = "4", Status = "Illegal method, Missing method, Illegal path, Missing path, Illegal date, Missing body" };
                     client.Write(r.ToJson());
                 }
                 else
@@ -33,17 +32,26 @@ namespace Server
                     var data = req.FromJson<Request>();
                     var res = new Response();
                     string errorMessage = "";
+                    string[] methods = {"read", "create", "update", "delete", "echo"};
+
+                    if(!methods.Contains(data.Method))
+                    {
+                        res.Body = "4";
+                        if (errorMessage != "")
+                            errorMessage += ",";
+                        errorMessage += "Illegal method";
+                    }
 
                     switch (data.Method)
                     {
                         case "":
-                            res.Body = 4;
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
                             errorMessage += "Illegal method";
                             break;
                         case null:
-                            res.Body = 4;
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
                             errorMessage += "Missing method";
@@ -55,16 +63,16 @@ namespace Server
                     switch (data.Path)
                     {
                         case "":
-                            res.Body = 4;
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
-                            errorMessage += "Illegal path";
+                            errorMessage += "Illegal resource";
                             break;
                         case null:
-                            res.Body = 4;
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
-                            errorMessage += "Missing path";
+                            errorMessage += "Missing resource";
                             break;
                         default:
                             break;
@@ -72,21 +80,26 @@ namespace Server
 
                     switch (data.Date)
                     {
-                        case 0:
-                            res.Body = 4;
+                        case "":
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
                             errorMessage += "Illegal date";
+                            break;
+                        case null:
+                            res.Body = "4";
+                            if (errorMessage != "")
+                                errorMessage += ",";
+                            errorMessage += "Missing date";
                             break;
                         default:
                             break;
                     }
 
-
                     switch (data.Body)
                     {
                         case null:
-                            res.Body = 4;
+                            res.Body = "4";
                             if (errorMessage != "")
                                 errorMessage += ",";
                             errorMessage += "Missing body";
