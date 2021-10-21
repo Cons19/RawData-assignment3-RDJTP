@@ -95,7 +95,7 @@ namespace Server
                         res.Body = data.Body;
                     }
 
-                    // from JSON text to object
+                    // conversion JSON to object
                     try 
                     { 
                         var categoryFromJson = JsonSerializer.Deserialize<Category>(data.Body);                    
