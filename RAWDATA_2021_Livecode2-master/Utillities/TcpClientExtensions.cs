@@ -14,10 +14,6 @@ namespace Utillities
 
         public static string Receive(this TcpClient client, int bufferSize = 1024)
         {
-            //var buffer = new byte[1024];
-            //var rdCnt =client.GetStream().Read(buffer);
-            //return Encoding.UTF8.GetString(buffer, 0, rdCnt);
-
             var strm = client.GetStream();
             byte[] resp = new byte[bufferSize];
             using (var memStream = new MemoryStream())

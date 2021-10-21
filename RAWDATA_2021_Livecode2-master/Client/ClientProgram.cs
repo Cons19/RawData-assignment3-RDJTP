@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Text;
 using Utillities;
 
 namespace Client
 {
-    
+
     class ClientProgram
     {
         const int PORT = 5000;
@@ -13,16 +12,25 @@ namespace Client
         {
 
             var client = new NetworkClient();
+            Int32 unixTimestamp = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+
 
             client.Connect("localhost", PORT);
 
-            var message = "hello";
-            client.Write(message);
+            var req = new Request
+            {
+                // Method = "dwadwa",
+                // Path = "dwad",
+                // Date = unixTimestamp,
+                // Body = new Category { Id = 1, Name = "NewName" }
+            };
+
+            client.Write("{}".ToJson());
 
             var response = client.Read();
+            var data = response.FromJson<Response>();
 
-            Console.WriteLine($"Server response '{response}'");
-
+            Console.WriteLine(response);
         }
     }
 }
