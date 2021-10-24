@@ -61,7 +61,7 @@ namespace Assignment3TestSuite
             Assert.Contains("missing method", response.Status.ToLower());
         }
 
-        /*[Fact]
+        [Fact]
         public void Constraint_RequestWithUnknownMethod_IllegalMethodError()
         {
             var client = Connect();
@@ -78,7 +78,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("illegal method", response.Status.ToLower());
-        }*/
+        }
 
         [Theory]
         [InlineData("create")]
@@ -248,7 +248,7 @@ namespace Assignment3TestSuite
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
         }
 
-        /*
+        
         [Fact]
         public void Constraint_CreateWithPathId_StatusBadRequest()
         {
@@ -269,7 +269,7 @@ namespace Assignment3TestSuite
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
         }
-
+        /*
         [Fact]
         public void Constraint_UpdateWithOutPathId_StatusBadRequest()
         {
@@ -289,7 +289,7 @@ namespace Assignment3TestSuite
             var expectedResponse = new Response { Status = "4 Bad Request" };
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
-        }
+        }*/
 
         [Fact]
         public void Constraint_DeleteWithOutPathId_StatusBadRequest()
@@ -310,7 +310,7 @@ namespace Assignment3TestSuite
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
         }
-        */
+        
 
 
         /* Read tests */
@@ -531,7 +531,7 @@ namespace Assignment3TestSuite
 
         /* Delete Tests  */
 
-        /*[Fact]
+        [Fact]
         public void Request_DeleteCategoryWithValidId_RemoveCategory()
         {
             var client = Connect();
@@ -576,7 +576,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("5 not found", response.Status.ToLower());
-        }*/
+        }
 
 
 

@@ -25,8 +25,20 @@ namespace Client
             };
 
             client.Write(req.ToJson());
-
             var response = client.Read();
+
+            Console.WriteLine(response);
+
+            var req2 = new Request
+            {
+                Method = "delete",
+                Path = "/api/categories/4",
+                Date = unixTimestamp
+            };
+
+            client.Write(req.ToJson());
+
+            response = client.Read();
             var data = response.FromJson<Response>();
 
             Console.WriteLine(response);

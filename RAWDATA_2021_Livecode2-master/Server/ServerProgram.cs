@@ -13,6 +13,7 @@ namespace Server
     class ServerProgram
     {
         const int PORT = 5000;
+        static List<Category> categories = GetCategories();
 
         static void Main(string[] args)
         {
@@ -112,7 +113,7 @@ namespace Server
                                 errorMessage += "Illegal body";
                             
                              }
-                        } catch 
+                        } catch (Exception e)
                         {
                             if (errorMessage != "")
                                     errorMessage += ",";
@@ -134,7 +135,6 @@ namespace Server
     
         private static void checkAPI (string method, string path, string body, NetworkClient client)
         { 
-            var categories = GetCategories();
             var res = new Response();
             string[] pathComponents = path.Split('/');
             int pathLength = pathComponents.Length - 1;
@@ -185,21 +185,27 @@ namespace Server
                         }
 
                     } else if (method == "create")
-                    { 
-                        Category categoryFromJson = JsonSerializer.Deserialize<Category>(body);
-                        Category newCategory = new Category();
-                        newCategory.Id = categories.Count + 1;
-                        newCategory.Name = categoryFromJson.Name;
-                        categories.Add(newCategory);
-
-                        res.Status = "2 Created";
-                        res.Body = newCategory.ToJson();
-                        client.Write(res.ToJson());
+                    {
+                        if (pathLength >= 3)
+                        {
+                            res.Status = "4 Bad Request";
+                            client.Write(res.ToJson());
+                        } else
+                        {
+                            Category categoryFromJson = JsonSerializer.Deserialize<Category>(body);
+                            Category newCategory = new Category();
+                            newCategory.Id = categories.Count + 1;
+                            newCategory.Name = categoryFromJson.Name;
+                            categories.Add(newCategory);
+                            res.Status = "2 Created";
+                            res.Body = newCategory.ToJson();
+                            client.Write(res.ToJson());
+                        }
                     } else if (method == "update")
                     { 
         
                     } else if (method == "delete")
-                    { 
+                    {
                         if (pathLength == 3)
                         {
                             try 
@@ -207,28 +213,30 @@ namespace Server
                                 int id = Int32.Parse(pathComponents[3]);
                                 bool found = false;
                                 foreach (Category category in categories)
-                                    { 
-                                        if (category.Id == id)
-                                        {
-                                            res.Status = "1 Ok";
-                                            categories.RemoveAt(id);
-                                            client.Write(res.ToJson());
-                                            found = true;
-                                            break;
-                                        }
+                                {   
+                                    if (category.Id == id)
+                                    {
+                                        res.Status = "1 ok";
+                                        categories.RemoveAt(id - 1);
+                                        client.Write(res.ToJson());
+                                        found = true;
+                                        break;
                                     }
+                                }
                                 if (!found)
                                 {
                                     res.Status = "5 Not Found";
                                     client.Write(res.ToJson());
                                 }
-                            } catch
+                            } catch (Exception e)
                                 {
+                                    Console.WriteLine("catch");
                                     res.Status = "4 Bad Request";
                                     client.Write(res.ToJson());
                                 }
                         } else
                         {
+                            Console.WriteLine("else");
                             res.Status = "4 Bad Request";
                             client.Write(res.ToJson());
                         }
