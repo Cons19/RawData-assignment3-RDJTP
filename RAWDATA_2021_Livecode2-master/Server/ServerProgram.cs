@@ -96,17 +96,23 @@ namespace Server
                     }
 
                     // conversion JSON to object
+                    Category categoryFromJson = null;
                     try 
                     { 
-                        var categoryFromJson = JsonSerializer.Deserialize<Category>(data.Body);                    
+                        categoryFromJson = JsonSerializer.Deserialize<Category>(data.Body);
+                         if (categoryFromJson.Id <= 0 || categoryFromJson.Name == null) 
+                         { 
+                            if (errorMessage != "")
+                                errorMessage += ",";
+                            errorMessage += "Illegal body";
+                         }
                     }
                     catch 
-                    { 
-                         if (errorMessage != "")
-                            errorMessage += ",";
-                         errorMessage += "Illegal body";
+                    {
+                        if (errorMessage != "")
+                                errorMessage += ",";
+                        errorMessage += "Illegal body";
                     }
-
                     res.Status = errorMessage;
                     client.Write(res.ToJson());
                 }
