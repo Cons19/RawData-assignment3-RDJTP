@@ -18,10 +18,10 @@ namespace Client
 
             var req = new Request
             {
-                Method = "read",
-                Path = "/api/categories/2",
-                Date = unixTimestamp//,
-                //Body = null
+                Method = "create",
+                Path = "/api/categories",
+                Date = unixTimestamp,
+                Body = (new { name = "Seafood" }).ToJson()
             };
 
             client.Write(req.ToJson());
