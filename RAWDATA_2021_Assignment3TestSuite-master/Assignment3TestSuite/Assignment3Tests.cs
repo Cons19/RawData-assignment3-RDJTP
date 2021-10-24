@@ -1,5 +1,6 @@
 //#define COMMENT
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -32,6 +33,7 @@ namespace Assignment3TestSuite
     {
         private const int Port = 5000;
 
+
         //////////////////////////////////////////////////////////
         /// 
         /// Testing Constrains
@@ -59,7 +61,7 @@ namespace Assignment3TestSuite
             Assert.Contains("missing method", response.Status.ToLower());
         }
 
-        [Fact]
+        /*[Fact]
         public void Constraint_RequestWithUnknownMethod_IllegalMethodError()
         {
             var client = Connect();
@@ -76,7 +78,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("illegal method", response.Status.ToLower());
-        }
+        }*/
 
         [Theory]
         [InlineData("create")]
@@ -206,7 +208,7 @@ namespace Assignment3TestSuite
 
         /* Path tests  */
 
-        /*[Fact]
+        [Fact]
         public void Constraint_RequestWithInvalidPath_StatusBadRequest()
         {
             var client = Connect();
@@ -246,6 +248,7 @@ namespace Assignment3TestSuite
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
         }
 
+        /*
         [Fact]
         public void Constraint_CreateWithPathId_StatusBadRequest()
         {
@@ -306,13 +309,13 @@ namespace Assignment3TestSuite
             var expectedResponse = new Response { Status = "4 Bad Request" };
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
-        }*/
-
+        }
+        */
 
 
         /* Read tests */
 
-        /*[Fact]
+        [Fact]
         public void Request_ReadCategories_StatusOkAndListOfCategoriesInBody()
         {
             var client = Connect();
@@ -383,12 +386,12 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("5 not found", response.Status.ToLower());
-        }*/
+        }
 
 
         /* Update tests  */
-
-        /*[Fact]
+        /*
+        [Fact]
         public void Request_UpdateCategoryWithValidIdAndBody_StatusUpdated()
         {
             var client = Connect();
@@ -490,7 +493,7 @@ namespace Assignment3TestSuite
 
         /* Create Tests  */
 
-        /*[Fact]
+        [Fact]
         public void Request_CreateCategoryWithValidBodyArgument_CreateNewCategory()
         {
             var client = Connect();
@@ -523,7 +526,7 @@ namespace Assignment3TestSuite
 
             client.SendRequest(resetRequest.ToJson());
             client.ReadResponse();
-        }*/
+        }
 
 
         /* Delete Tests  */
@@ -635,9 +638,9 @@ namespace Assignment3TestSuite
                     memStream.Write(resp, 0, bytesread);
 
                 } while (bytesread == 2048);
-
+                
                 var responseData = Encoding.UTF8.GetString(memStream.ToArray());
-                return JsonSerializer.Deserialize<Response>(responseData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                return JsonSerializer.Deserialize<Response>(responseData, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase});
             }
         }
     }

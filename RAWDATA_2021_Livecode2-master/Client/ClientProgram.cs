@@ -12,29 +12,19 @@ namespace Client
         {
 
             var client = new NetworkClient();
-            Int32 unixTimestamp = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
+            string unixTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
 
             client.Connect("localhost", PORT);
 
-            /*var req = new Request
+            var req = new Request
             {
-                Method = "dwadwa",
-                Path = "dwad",
-                Date = unixTimestamp,
-                Body = new Category { Id = 1, Name = "NewName" }
-            };*/
-            var req = new
-            {
-                Method = "xxxx",
-                Path = "testing",
-                Date = DateTimeOffset.Now.ToUnixTimeSeconds().ToString(),
-                Body = "{}"
+                Method = "read",
+                Path = "/api/categories/2",
+                Date = unixTimestamp//,
+                //Body = null
             };
 
-
             client.Write(req.ToJson());
-
 
             var response = client.Read();
             var data = response.FromJson<Response>();
