@@ -15,6 +15,7 @@ namespace Server
         const int PORT = 5000;
         static List<Category> categories = GetCategories();
 
+        // A
         static void Main(string[] args)
         {
             var server = new TcpListener(IPAddress.Loopback, PORT);
@@ -135,6 +136,7 @@ namespace Server
             }
         }
     
+        // B
         private static void checkAPI (string method, string path, string body, NetworkClient client)
         { 
             var res = new Response();
