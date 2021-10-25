@@ -18,28 +18,14 @@ namespace Client
 
             var req = new Request
             {
-                Method = "create",
-                Path = "/api/categories",
+                Method = "update",
+                Path = "/api/categories/123",
                 Date = unixTimestamp,
-                Body = (new { name = "Seafood" }).ToJson()
+                Body = (new { cid = 1, name = "BeveragesTesting" }).ToJson()
             };
 
             client.Write(req.ToJson());
             var response = client.Read();
-
-            Console.WriteLine(response);
-
-            var req2 = new Request
-            {
-                Method = "delete",
-                Path = "/api/categories/4",
-                Date = unixTimestamp
-            };
-
-            client.Write(req.ToJson());
-
-            response = client.Read();
-            var data = response.FromJson<Response>();
 
             Console.WriteLine(response);
         }

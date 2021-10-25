@@ -203,7 +203,41 @@ namespace Server
                         }
                     } else if (method == "update")
                     { 
-        
+                        if (pathLength == 3)
+                        {
+                            try 
+                            { 
+                                int id = Int32.Parse(pathComponents[3]);
+                                bool found = false;
+                                foreach (Category category in categories)
+                                {   
+                                    if (category.Id == id)
+                                    {
+                                        Category categoryFromJson = JsonSerializer.Deserialize<Category>(body);
+                                        Category newCategory = new Category();
+                                        category.Id = categoryFromJson.Id;
+                                        category.Name = categoryFromJson.Name;
+                                        res.Status = "3 updated";
+                                        client.Write(res.ToJson());
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                if (!found)
+                                {
+                                    res.Status = "5 Not Found";
+                                    client.Write(res.ToJson());
+                                }
+                            } catch (Exception e)
+                                {
+                                    res.Status = "4 Bad Request";
+                                    client.Write(res.ToJson());
+                                }
+                        } else
+                        {
+                            res.Status = "4 Bad Request";
+                            client.Write(res.ToJson());
+                        }
                     } else if (method == "delete")
                     {
                         if (pathLength == 3)
@@ -230,13 +264,11 @@ namespace Server
                                 }
                             } catch (Exception e)
                                 {
-                                    Console.WriteLine("catch");
                                     res.Status = "4 Bad Request";
                                     client.Write(res.ToJson());
                                 }
                         } else
                         {
-                            Console.WriteLine("else");
                             res.Status = "4 Bad Request";
                             client.Write(res.ToJson());
                         }

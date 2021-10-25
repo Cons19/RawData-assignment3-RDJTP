@@ -269,7 +269,7 @@ namespace Assignment3TestSuite
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
         }
-        /*
+        
         [Fact]
         public void Constraint_UpdateWithOutPathId_StatusBadRequest()
         {
@@ -289,7 +289,7 @@ namespace Assignment3TestSuite
             var expectedResponse = new Response { Status = "4 Bad Request" };
 
             Assert.Equal(expectedResponse.ToJson().ToLower(), response.ToJson().ToLower());
-        }*/
+        }
 
         [Fact]
         public void Constraint_DeleteWithOutPathId_StatusBadRequest()
@@ -390,7 +390,7 @@ namespace Assignment3TestSuite
 
 
         /* Update tests  */
-        /*
+        
         [Fact]
         public void Request_UpdateCategoryWithValidIdAndBody_StatusUpdated()
         {
@@ -407,7 +407,7 @@ namespace Assignment3TestSuite
             client.SendRequest(request.ToJson());
             var response = client.ReadResponse();
 
-
+                
             Assert.Contains("3 updated", response.Status.ToLower());
 
             // reset data
@@ -488,7 +488,7 @@ namespace Assignment3TestSuite
             var response = client.ReadResponse();
 
             Assert.Contains("5 not found", response.Status.ToLower());
-        }*/
+        }
 
 
         /* Create Tests  */
