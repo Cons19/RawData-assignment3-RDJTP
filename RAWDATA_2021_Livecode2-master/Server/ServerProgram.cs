@@ -217,7 +217,7 @@ namespace Server
                                         Category newCategory = new Category();
                                         category.Id = categoryFromJson.Id;
                                         category.Name = categoryFromJson.Name;
-                                        res.Status = "3 updated";
+                                        res.Status = "3 Updated";
                                         client.Write(res.ToJson());
                                         found = true;
                                         break;
@@ -250,7 +250,7 @@ namespace Server
                                 {   
                                     if (category.Id == id)
                                     {
-                                        res.Status = "1 ok";
+                                        res.Status = "1 Ok";
                                         categories.RemoveAt(id - 1);
                                         client.Write(res.ToJson());
                                         found = true;
