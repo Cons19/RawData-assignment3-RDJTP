@@ -65,12 +65,12 @@ namespace Server
                         if (errorMessage != "")
                             errorMessage += ",";
                         errorMessage += "Illegal resource";
-                    } else if (data.Path == null)
+                    } else if (data.Path == null && data.Method != "echo")
                     {
                         if (errorMessage != "")
                             errorMessage += ",";
                         errorMessage += "Missing resource";
-                    } 
+                    }
 
                     // Checking Data Date
                     if (data.Date == "")
@@ -98,6 +98,7 @@ namespace Server
                         errorMessage += "Missing body";
                     } else if (data.Body != null && data.Method == "echo")
                     {
+                        res.Status = "1 Ok";
                         res.Body = data.Body;
                     } else if (data.Body != null)
                     { 
@@ -113,7 +114,7 @@ namespace Server
                                 errorMessage += "Illegal body";
                             
                              }
-                        } catch (Exception e)
+                        } catch
                         {
                             if (errorMessage != "")
                                     errorMessage += ",";
@@ -121,12 +122,13 @@ namespace Server
                         }
                     }
                     
-                    if (errorMessage == "")
+                    if (errorMessage == "" && data.Method != "echo")
                     { 
                         checkAPI(data.Method, data.Path, data.Body, client);
                     } else
-                    { 
-                        res.Status = errorMessage;
+                    {
+                        if (errorMessage != "")
+                            res.Status = errorMessage;
                         client.Write(res.ToJson());
                     }
                 }
@@ -228,7 +230,7 @@ namespace Server
                                     res.Status = "5 Not Found";
                                     client.Write(res.ToJson());
                                 }
-                            } catch (Exception e)
+                            } catch
                                 {
                                     res.Status = "4 Bad Request";
                                     client.Write(res.ToJson());
@@ -262,7 +264,7 @@ namespace Server
                                     res.Status = "5 Not Found";
                                     client.Write(res.ToJson());
                                 }
-                            } catch (Exception e)
+                            } catch
                                 {
                                     res.Status = "4 Bad Request";
                                     client.Write(res.ToJson());
@@ -272,9 +274,6 @@ namespace Server
                             res.Status = "4 Bad Request";
                             client.Write(res.ToJson());
                         }
-                    } else if (method == "echo")
-                    { 
-            
                     }
                 } else
                 {

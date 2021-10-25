@@ -18,10 +18,9 @@ namespace Client
 
             var req = new Request
             {
-                Method = "update",
-                Path = "/api/categories/123",
+                Method = "echo",
                 Date = unixTimestamp,
-                Body = (new { cid = 1, name = "BeveragesTesting" }).ToJson()
+                Body = "Hello World"
             };
 
             client.Write(req.ToJson());
